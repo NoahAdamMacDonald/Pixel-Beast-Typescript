@@ -7,6 +7,7 @@ import DecksListScreen from './screens/DecksListScreen';
 import DeckViewScreen from './screens/DeckViewScreen';
 import DeckBuilderScreen from './screens/DeckBuilderScreen';
 import CardDetailScreen from './screens/CardDetailScreen';
+import CardSearchScreen from './screens/CardSearchScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,11 @@ export default function App() {
           name="CardDetail"
           component={CardDetailScreen}
           options={({ route }) => ({ title: route.params?.cardName || 'Card Detail' })}
+        />
+        <Stack.Screen
+          name="CardSearch"
+          component={CardSearchScreen}
+          options={{ title: 'Card Search' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
