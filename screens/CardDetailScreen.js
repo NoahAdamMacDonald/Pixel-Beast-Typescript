@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { getCardById } from '../services/api';
 
+const SERVER_BASE_URL = "https://card-api.fly.dev";
+
 export default function CardDetailScreen({ route }) {
     const { cardId, cardType } = route.params;
     const [card, setCard] = useState(null);
