@@ -48,7 +48,11 @@ export default function DecksListScreen({ navigation }) {
             {loading ? (
                 <Text style={styles.loadingText}>Loading Decks...</Text>
             ) : (
+<<<<<<< HEAD
                 <FlatList 
+=======
+                <FlatList
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
                     data={decks}
                     keyExtractor={(item) => item.id}
                     renderItem={renderDeck}

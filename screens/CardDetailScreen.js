@@ -75,11 +75,19 @@ export default function CardDetailScreen({ route }) {
             )}
 
             {stats.bitEffect &&  (
+<<<<<<< HEAD
                 <View style={styles.bitEffectCard}>
                 <Text style={styles.bitEffectLabel}>BitEffect</Text>
                 <Text style={styles.bitEffectText}>{stats.bitEffect}</Text>
                 </View>
             )}
+=======
+                            <View style={styles.bitEffectCard}>
+                            <Text style={styles.bitEffectLabel}>BitEffect</Text>
+                            <Text style={styles.bitEffectText}>{stats.bitEffect}</Text>
+                            </View>
+                        )}
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
 
             {stats.traits && stats.traits.length > 0 && (
                 <TagSection title="Traits" items={stats.traits} color="#0F3460" />
@@ -166,7 +174,11 @@ export default function CardDetailScreen({ route }) {
                     {items.map((item, index) => (
                         <View key={index} style={[styles.tag, { backgroundColor: color }]}>
                             <Text style={styles.tagText}>{item}</Text>
+<<<<<<< HEAD
                          </View>   
+=======
+                         </View>
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
                     ))}
                 </View>
             </View>
@@ -318,5 +330,9 @@ export default function CardDetailScreen({ route }) {
     color: '#FFFFFF',
     fontSize: 14,
     lineHeight: 20,
+<<<<<<< HEAD
   },
+=======
+  }
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
 });

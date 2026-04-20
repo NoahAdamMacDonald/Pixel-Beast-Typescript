@@ -28,7 +28,11 @@ export default function DeckViewScreen({ route, navigation }) {
 
     const handleDelete = () => {
         Alert.alert('Delete Deck', 'Are you sure that you want to delete this deck?', [{
+<<<<<<< HEAD
             text: 'Cancel', style: 'cancel' 
+=======
+            text: 'Cancel', style: 'cancel'
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
         }, {
             text: 'Delete',
             style: 'destructive',
@@ -37,7 +41,11 @@ export default function DeckViewScreen({ route, navigation }) {
                 navigation.goBack();
             },
         },
+<<<<<<< HEAD
     ]); 
+=======
+    ]);
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
   };
 
     const renderCard = ({item}) => (
@@ -76,7 +84,11 @@ export default function DeckViewScreen({ route, navigation }) {
                     <Text style={styles.emptySubtext}>Edit the deck to add cards!</Text>
                 </View>
             ) : (
+<<<<<<< HEAD
                 <FlatList 
+=======
+                <FlatList
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
                     data={deck.cards}
                     keyExtractor={(item, index) => `${item.id}-${index}`}
                     renderItem={renderCard}
@@ -84,7 +96,11 @@ export default function DeckViewScreen({ route, navigation }) {
                     contentContainerStyle={styles.grid}
                     columnWrapperStyle={styles.row}/>
             )}
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
             <View style={styles.buttonRow}>
                 <TouchableOpacity style={styles.editButton}
                 onPress={() => navigation.navigate('DeckBuilder', {deckId: deck.id})}>

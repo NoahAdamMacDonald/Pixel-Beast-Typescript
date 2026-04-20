@@ -9,7 +9,11 @@ export default function CardSearchScreen({ navigation }) {
     const [error, setError] = useState(null);
 
     const handleSearch = async () => {
+<<<<<<< HEAD
         if (!searchQuery.trim()) 
+=======
+        if (!searchQuery.trim())
+>>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
             return;
 
         try {
