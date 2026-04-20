@@ -51,7 +51,7 @@ export default function DeckBuilderScreen({ route, navigation }) {
         setSelectedCards((prev) => [...prev, card]);
     };
 
-    const removeCrd = (index) => {
+    const removeCard = (index) => {
         setSelectedCards((prev) => prev.filter((_, i) => i !== index));
     };
 
@@ -67,7 +67,7 @@ export default function DeckBuilderScreen({ route, navigation }) {
 
         try {
             if (editingDeckId) {
-                await updatedDeck(editingDeckId, deckName.trim(), selectedCards);
+                await updateDeck(editingDeckId, deckName.trim(), selectedCards);
             } else {
                 await saveDeck(deckName.trim(), selectedCards);
             }

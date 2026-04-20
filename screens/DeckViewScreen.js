@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { getDeckById, deleteDeck } from '../services/storage';
+import { getDeckById, deleteDeck, updateDeck } from '../services/storage';
 
 export default function DeckViewScreen({ route, navigation }) {
     const { deckId } = route.params;
@@ -40,13 +40,28 @@ export default function DeckViewScreen({ route, navigation }) {
     ]);
   };
 
-    const renderCard = ({ item }) => (
+  const handleRemoveCard = (index) => {
+  Alert.alert('Remove Card', 'Remove this card from the deck?', [
+       { text: 'Cancel', style: 'cancel'},
+       { text: 'Remove',
+         style: 'destructive',
+         onPress: async () => {
+             const updatedCards = deck.cards.filter((_, i) => i !== index)
+             await updateDeck(deckId, deck.name, updatedCards);
+             loadDeck();
+          },
+       },
+     ]);
+   };
+
+    const renderCard = ({ item, index }) => (
         <TouchableOpacity style={styles.cardTile}
         onPress={() => navigation.navigate('CardDetail', {
             cardId: item.id,
             cardType: item.cardType,
             cardName: item.name,
-        })}>
+        })}
+            onLongPress={() => handleRemoveCard(index)}>
             <Text style={styles.cardName} numberOfLines={2}>{item.name}</Text>
             <Text style={styles.cardType}>{item.cardType}</Text>
         </TouchableOpacity>
