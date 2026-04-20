@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.welcome}>
-                <Text style={styles.title}>PG TCG
-            </Text>
+                <Image
+                  source={require('../assets/logo.png')}
+                  style={{ width: 400, height: 300, marginBottom: 8, marginTop: 35 }}
+                  resizeMode="contain"
+                />
             <Text style={styles.subtitle}>Build your deck. Master the biome.</Text>
         </View>
 
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#16213E',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     padding: 24,
   },

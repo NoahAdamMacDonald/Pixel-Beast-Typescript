@@ -133,7 +133,7 @@ export default function DeckBuilderScreen({ route, navigation }) {
                             value={searchQuery}
                             onChangeText={setSearchQuery}
                             onSubmitEditing={handleSearch}/>
-                        <TouchableOpacity styles={styles.searchButton} onPress={handleSearch}>
+                        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
                             <Text style={styles.searchButtonText}>Search</Text>
                         </TouchableOpacity>
                     </View>
@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
   searchButton: {
     backgroundColor: '#533483',
     paddingHorizontal: 20,
+    paddingVertical: 12,
     borderRadius: 10,
     justifyContent: 'center',
   },
