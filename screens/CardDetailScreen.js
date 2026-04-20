@@ -54,7 +54,7 @@ export default function CardDetailScreen({ route }) {
             <View style={styles.header}>
                 {stats.image && (
                     <Image
-                        source={{ uri: stats.image }}
+                        source={{ uri: `${SERVER_BASE_URL}${stats.image}` }}
                         style={{ width: 200, height: 280, borderRadius: 12, marginBottom: 16 }}
                         resizeMode="contain"
                     />
