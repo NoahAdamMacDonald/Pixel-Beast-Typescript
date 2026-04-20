@@ -75,8 +75,11 @@ export default function CardDetailScreen({ route }) {
             )}
 
             {stats.bitEffect &&  (
-                <InfoRow label="Bit Effect" value={stats.bitEffect} />
-            )}
+                            <View style={styles.bitEffectCard}>
+                            <Text style={styles.bitEffectLabel}>BitEffect</Text>
+                            <Text style={styles.bitEffectText}>{stats.bitEffect}</Text>
+                            </View>
+                        )}
 
             {stats.traits && stats.traits.length > 0 && (
                 <TagSection title="Traits" items={stats.traits} color="#0F3460" />
@@ -300,4 +303,20 @@ export default function CardDetailScreen({ route }) {
     fontWeight: 'bold',
     marginBottom: 6,
   },
+  bitEffectCard: {
+    backgroundColor: '#0F3460',
+    padding: 14,
+    borderRadius: 10,
+    marginBottom: 8,
+  },
+  bitEffectLabel: {
+    color: '#A0A0B0',
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  bitEffectText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    lineHeight: 20,
+  }
 });
