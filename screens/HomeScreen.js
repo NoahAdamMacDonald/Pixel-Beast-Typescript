@@ -10,7 +10,8 @@ export default function HomeScreen({ navigation }) {
                   style={{ width: 400, height: 300, marginBottom: 8, marginTop: 35 }}
                   resizeMode="contain"
                 />
-            <Text style={styles.subtitle}>Build your deck. Master the biome.</Text>
+            <Text style={styles.title}>Deckbuilder Companion App</Text>
+            <Text style={styles.subtitle}>Choose your Beast. Master your Biome.</Text>
         </View>
 
         <TouchableOpacity
@@ -46,10 +47,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
