@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { getDecks } from '../services/storage';
 
 export default function DecksListScreen({ navigation }) {
-    const [decks, setDecks] = useState ([]);
+    const [decks, setDecks] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useFocusEffect(
@@ -36,10 +36,10 @@ export default function DecksListScreen({ navigation }) {
         </TouchableOpacity>
     );
 
-    const renderEmpty= () => (
+    const renderEmpty = () => (
         <View style={styles.emptyState}>
             <Text style={styles.emptyText}>No decks yet</Text>
-            <Text style={styles.emptySubtext}>Tap "Create new" to get started! </Text>
+            <Text style={styles.emptySubtext}>Tap "Create new" to get started!</Text>
         </View>
     );
 
@@ -48,11 +48,7 @@ export default function DecksListScreen({ navigation }) {
             {loading ? (
                 <Text style={styles.loadingText}>Loading Decks...</Text>
             ) : (
-<<<<<<< HEAD
-                <FlatList 
-=======
                 <FlatList
->>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
                     data={decks}
                     keyExtractor={(item) => item.id}
                     renderItem={renderDeck}
@@ -64,70 +60,70 @@ export default function DecksListScreen({ navigation }) {
                 style={styles.createButton}
                 onPress={() => navigation.navigate('DeckBuilder')}>
                     <Text style={styles.createButtonText}>Create new</Text>
-                </TouchableOpacity>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#16213E',
-  },
-  listContent: {
-    padding: 16,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  deckCard: {
-    backgroundColor: '#0F3460',
-    padding: 20,
-    borderRadius: 12,
-    marginBottom: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  deckName: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  deckCount: {
-    color: '#A0A0B0',
-    fontSize: 14,
-  },
-  emptyState: {
-    alignItems: 'center',
-  },
-  emptyText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    color: '#A0A0B0',
-    fontSize: 14,
-  },
-  loadingText: {
-    color: '#A0A0B0',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 40,
-  },
-  createButton: {
-    backgroundColor: '#533483',
-    margin: 16,
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  createButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#16213E',
+    },
+    listContent: {
+        padding: 16,
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deckCard: {
+        backgroundColor: '#0F3460',
+        padding: 20,
+        borderRadius: 12,
+        marginBottom: 12,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    deckName: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: '600',
+    },
+    deckCount: {
+        color: '#A0A0B0',
+        fontSize: 14,
+    },
+    emptyState: {
+        alignItems: 'center',
+    },
+    emptyText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        marginBottom: 8,
+    },
+    emptySubtext: {
+        color: '#A0A0B0',
+        fontSize: 14,
+    },
+    loadingText: {
+        color: '#A0A0B0',
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 40,
+    },
+    createButton: {
+        backgroundColor: '#533483',
+        margin: 16,
+        paddingVertical: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    createButtonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '600',
+    },
 });

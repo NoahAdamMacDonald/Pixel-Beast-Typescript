@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { getDeckById, deleteDeck } from '../services/storage';
 
 export default function DeckViewScreen({ route, navigation }) {
-    const {deckId } = route.params;
+    const { deckId } = route.params;
     const [deck, setDeck] = useState(null);
-    const [loading, setLoading]= useState(true);
+    const [loading, setLoading] = useState(true);
 
     useFocusEffect(
         useCallback(() => {
@@ -28,11 +28,7 @@ export default function DeckViewScreen({ route, navigation }) {
 
     const handleDelete = () => {
         Alert.alert('Delete Deck', 'Are you sure that you want to delete this deck?', [{
-<<<<<<< HEAD
-            text: 'Cancel', style: 'cancel' 
-=======
             text: 'Cancel', style: 'cancel'
->>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
         }, {
             text: 'Delete',
             style: 'destructive',
@@ -41,14 +37,10 @@ export default function DeckViewScreen({ route, navigation }) {
                 navigation.goBack();
             },
         },
-<<<<<<< HEAD
-    ]); 
-=======
     ]);
->>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
   };
 
-    const renderCard = ({item}) => (
+    const renderCard = ({ item }) => (
         <TouchableOpacity style={styles.cardTile}
         onPress={() => navigation.navigate('CardDetail', {
             cardId: item.id,
@@ -84,11 +76,7 @@ export default function DeckViewScreen({ route, navigation }) {
                     <Text style={styles.emptySubtext}>Edit the deck to add cards!</Text>
                 </View>
             ) : (
-<<<<<<< HEAD
-                <FlatList 
-=======
                 <FlatList
->>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
                     data={deck.cards}
                     keyExtractor={(item, index) => `${item.id}-${index}`}
                     renderItem={renderCard}
@@ -96,14 +84,10 @@ export default function DeckViewScreen({ route, navigation }) {
                     contentContainerStyle={styles.grid}
                     columnWrapperStyle={styles.row}/>
             )}
-<<<<<<< HEAD
-            
-=======
 
->>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
             <View style={styles.buttonRow}>
                 <TouchableOpacity style={styles.editButton}
-                onPress={() => navigation.navigate('DeckBuilder', {deckId: deck.id})}>
+                onPress={() => navigation.navigate('DeckBuilder', { deckId: deck.id })}>
                     <Text style={styles.buttonText}>Edit Deck</Text>
                 </TouchableOpacity>
 
@@ -116,80 +100,80 @@ export default function DeckViewScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#16213E',
-  },
-  grid: {
-    padding: 12,
-  },
-  row: {
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  cardTile: {
-    backgroundColor: '#0F3460',
-    borderRadius: 8,
-    padding: 8,
-    width: '23%',
-    aspectRatio: 0.7,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cardName: {
-    color: '#FFFFFF',
-    fontSize: 10,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  cardType: {
-    color: '#A0A0B0',
-    fontSize: 8,
-    textTransform: 'uppercase',
-  },
-  emptyState: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    color: '#A0A0B0',
-    fontSize: 14,
-  },
-  loadingText: {
-    color: '#A0A0B0',
-    fontSize: 16,
-    textAlign: 'center',
-    marginTop: 40,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    padding: 16,
-    gap: 12,
-  },
-  editButton: {
-    flex: 1,
-    backgroundColor: '#533483',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  deleteButton: {
-    backgroundColor: '#8B0000',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#16213E',
+    },
+    grid: {
+        padding: 12,
+    },
+    row: {
+        justifyContent: 'space-between',
+        marginBottom: 8,
+    },
+    cardTile: {
+        backgroundColor: '#0F3460',
+        borderRadius: 8,
+        padding: 8,
+        width: '23%',
+        aspectRatio: 0.7,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    cardName: {
+        color: '#FFFFFF',
+        fontSize: 10,
+        fontWeight: '600',
+        textAlign: 'center',
+        marginBottom: 4,
+    },
+    cardType: {
+        color: '#A0A0B0',
+        fontSize: 8,
+        textTransform: 'uppercase',
+    },
+    emptyState: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    emptyText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        marginBottom: 8,
+    },
+    emptySubtext: {
+        color: '#A0A0B0',
+        fontSize: 14,
+    },
+    loadingText: {
+        color: '#A0A0B0',
+        fontSize: 16,
+        textAlign: 'center',
+        marginTop: 40,
+    },
+    buttonRow: {
+        flexDirection: 'row',
+        padding: 16,
+        gap: 12,
+    },
+    editButton: {
+        flex: 1,
+        backgroundColor: '#533483',
+        paddingVertical: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    deleteButton: {
+        backgroundColor: '#8B0000',
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        borderRadius: 12,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '600',
+    },
 });

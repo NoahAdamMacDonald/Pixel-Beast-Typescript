@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
-import {View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, FlatList, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import { searchCards } from '../services/api';
 
 export default function CardSearchScreen({ navigation }) {
     const [searchQuery, setSearchQuery] = useState('');
     const [results, setResults] = useState([]);
-    const [searching, setSearching]= useState(false);
+    const [searching, setSearching] = useState(false);
     const [error, setError] = useState(null);
 
     const handleSearch = async () => {
-<<<<<<< HEAD
-        if (!searchQuery.trim()) 
-=======
-        if (!searchQuery.trim())
->>>>>>> 37472fa9345cc5aebf4100673a1373e29c9e3ee1
-            return;
+        if (!searchQuery.trim()) return;
 
         try {
             setSearching(true);
@@ -29,7 +24,7 @@ export default function CardSearchScreen({ navigation }) {
         }
     };
 
-    const renderResult = ({ item}) => (
+    const renderResult = ({ item }) => (
         <TouchableOpacity style={styles.resultCard}
         onPress={() => navigation.navigate('CardDetail', {
             cardId: item.id,
@@ -75,67 +70,67 @@ export default function CardSearchScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#16213E',
-    padding: 16,
-  },
-  searchRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 16,
-  },
-  searchInput: {
-    flex: 1,
-    backgroundColor: '#0F3460',
-    color: '#FFFFFF',
-    padding: 12,
-    borderRadius: 10,
-    fontSize: 16,
-  },
-  searchButton: {
-    backgroundColor: '#533483',
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    justifyContent: 'center',
-  },
-  searchButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-  },
-  loader: {
-    marginVertical: 12,
-  },
-  errorText: {
-    color: '#FF6B6B',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  resultsList: {
-    paddingBottom: 16,
-  },
-  resultCard: {
-    backgroundColor: '#0F3460',
-    padding: 16,
-    borderRadius: 10,
-    marginBottom: 8,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  resultName: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  resultType: {
-    color: '#A0A0B0',
-    fontSize: 12,
-    textTransform: 'uppercase',
-  },
-  emptyText: {
-    color: '#A0A0B0',
-    textAlign: 'center',
-    marginTop: 40,
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#16213E',
+        padding: 16,
+    },
+    searchRow: {
+        flexDirection: 'row',
+        gap: 8,
+        marginBottom: 16,
+    },
+    searchInput: {
+        flex: 1,
+        backgroundColor: '#0F3460',
+        color: '#FFFFFF',
+        padding: 12,
+        borderRadius: 10,
+        fontSize: 16,
+    },
+    searchButton: {
+        backgroundColor: '#533483',
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        justifyContent: 'center',
+    },
+    searchButtonText: {
+        color: '#FFFFFF',
+        fontWeight: '600',
+    },
+    loader: {
+        marginVertical: 12,
+    },
+    errorText: {
+        color: '#FF6B6B',
+        textAlign: 'center',
+        marginBottom: 8,
+    },
+    resultsList: {
+        paddingBottom: 16,
+    },
+    resultCard: {
+        backgroundColor: '#0F3460',
+        padding: 16,
+        borderRadius: 10,
+        marginBottom: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    resultName: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    resultType: {
+        color: '#A0A0B0',
+        fontSize: 12,
+        textTransform: 'uppercase',
+    },
+    emptyText: {
+        color: '#A0A0B0',
+        textAlign: 'center',
+        marginTop: 40,
+    },
 });
