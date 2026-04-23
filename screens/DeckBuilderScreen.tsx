@@ -36,15 +36,23 @@ export default function DeckBuilderScreen({ route, navigation }: Props) {
 	const [deckName, setDeckName] = useState<string>("");
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+	const [allCards, setAllCards] = useState<SearchResult[]>([]);
 	const [selectedCards, setSelectedCards] = useState<SearchResult[]>([]);
 	const [searching, setSearching] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
+
+	const [selectedFilter, setSelectedFilter] = useState<string>("All");
+	const filterOptions = ["All", "Beast", "Biome", "Program", "Relic"];
 
 	useEffect(() => {
 		if (editingDeckId) {
 			loadExistingDeck();
 		}
 	}, [editingDeckId]);
+
+	useEffect(() => {
+		loadAllCards();
+	}, []);
 
 	const loadExistingDeck = async () => {
 		try {
@@ -58,20 +66,53 @@ export default function DeckBuilderScreen({ route, navigation }: Props) {
 		}
 	};
 
-	const handleSearch = async () => {
-		if (!searchQuery.trim()) return;
-
+	const loadAllCards = async () => {
 		try {
 			setSearching(true);
 			setError(null);
-			const results = await searchCards(searchQuery.trim());
+			const results = await searchCards(""); // empty = all cards
+			setAllCards(results);
 			setSearchResults(results);
 		} catch (err) {
-			setError("Failed to search cards. Check your connection!");
-			console.error("Search error:", err);
+			setError("Failed to load cards. Check your connection!");
+			console.error("Initial load error:", err);
 		} finally {
 			setSearching(false);
 		}
+	};
+
+	const applyFilters = (text: string, filter: string) => {
+		const query = text.trim().toLowerCase();
+
+		let filtered = allCards;
+
+		if (query) {
+			filtered = filtered.filter((card) =>
+				card.name.toLowerCase().includes(query),
+			);
+		}
+
+		if (filter !== "All") {
+			filtered = filtered.filter(
+				(card) => card.cardType.toLowerCase() === filter.toLowerCase(),
+			);
+		}
+
+		setSearchResults(filtered);
+	};
+
+	const handleLiveSearch = (text: string) => {
+		setSearchQuery(text);
+		applyFilters(text, selectedFilter);
+	};
+
+	const handleFilterPress = (filter: string) => {
+		setSelectedFilter(filter);
+		applyFilters(searchQuery, filter);
+	};
+
+	const handleSearch = () => {
+		applyFilters(searchQuery, selectedFilter);
 	};
 
 	const addCard = (card: SearchResult) => {
@@ -171,14 +212,32 @@ export default function DeckBuilderScreen({ route, navigation }: Props) {
 						placeholder="Search cards..."
 						placeholderTextColor="#666"
 						value={searchQuery}
-						onChangeText={setSearchQuery}
+						onChangeText={handleLiveSearch}
 						onSubmitEditing={handleSearch}
 					/>
-					<TouchableOpacity
-						style={styles.searchButton}
-						onPress={handleSearch}>
-						<Text style={styles.searchButtonText}>Search</Text>
-					</TouchableOpacity>
+				</View>
+
+				{/* Filter buttons */}
+				<View style={styles.filterRow}>
+					{filterOptions.map((item) => (
+						<TouchableOpacity
+							key={item}
+							style={[
+								styles.filterButton,
+								selectedFilter === item &&
+									styles.filterButtonActive,
+							]}
+							onPress={() => handleFilterPress(item)}>
+							<Text
+								style={[
+									styles.filterText,
+									selectedFilter === item &&
+										styles.filterTextActive,
+								]}>
+								{item}
+							</Text>
+						</TouchableOpacity>
+					))}
 				</View>
 
 				{searching && (
@@ -191,7 +250,7 @@ export default function DeckBuilderScreen({ route, navigation }: Props) {
 					keyExtractor={(item) => `${item.cardType}-${item.id}`}
 					renderItem={renderSearchResult}
 					ListEmptyComponent={
-						!searching && searchQuery ? (
+						!searching ? (
 							<Text style={styles.emptyText}>No results found</Text>
 						) : null
 					}
@@ -256,7 +315,7 @@ const styles = StyleSheet.create({
 	searchRow: {
 		flexDirection: "row",
 		gap: 8,
-		marginBottom: 12,
+		marginBottom: 8,
 	},
 	searchInput: {
 		flex: 1,
@@ -266,17 +325,30 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		fontSize: 16,
 	},
-	searchButton: {
-		backgroundColor: "#533483",
-		paddingHorizontal: 20,
-		paddingVertical: 12,
-		borderRadius: 10,
-		justifyContent: "center",
+
+	filterRow: {
+		flexDirection: "row",
+		marginBottom: 12,
 	},
-	searchButtonText: {
+	filterButton: {
+		paddingVertical: 6,
+		paddingHorizontal: 12,
+		backgroundColor: "#0F3460",
+		borderRadius: 16,
+		marginRight: 8,
+	},
+	filterButtonActive: {
+		backgroundColor: "#533483",
+	},
+	filterText: {
+		color: "#A0A0B0",
+		fontSize: 13,
+	},
+	filterTextActive: {
 		color: "#FFFFFF",
 		fontWeight: "600",
 	},
+
 	loader: {
 		marginVertical: 12,
 	},
