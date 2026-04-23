@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -25,26 +25,44 @@ interface SearchResult {
 export default function CardSearchScreen({ navigation }: Props) {
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	const [results, setResults] = useState<SearchResult[]>([]);
-	const [searching, setSearching] = useState<boolean>(false);
+	const [allCards, setAllCards] = useState<SearchResult[]>([]);
+	const [initialLoading, setInitialLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
-	const handleSearch = async () => {
-		if (!searchQuery.trim()) return;
+	useEffect(() => {
+		const loadAll = async () => {
+			try {
+				setInitialLoading(true);
+				const data = await searchCards("");
+				setAllCards(data);
+				setResults(data);
+			} catch (error) {
+				console.error("Failed to load all cards:", error);
+				setError("Failed to load cards.");
+			} finally {
+				setInitialLoading(false);
+			}
+		};
 
-		try {
-			setSearching(true);
-			setError(null);
-			const data = await searchCards(searchQuery.trim());
-			setResults(data);
-		} catch (err) {
-			setError("Failed to search cards. Please check your connection!");
-			console.error("Search error:", err);
-		} finally {
-			setSearching(false);
+		loadAll();
+	}, []);
+
+	const handleLiveSearch = (text: string) => {
+		setSearchQuery(text);
+
+		const query = text.trim().toLowerCase();
+
+		if (!query) {
+			setResults(allCards);
+			return;
 		}
+
+		const filtered = allCards.filter((card) =>
+			card.name.toLowerCase().includes(query),
+		);
+
+		setResults(filtered);
 	};
-
-
 
 	const renderResult = ({ item }: { item: SearchResult }) => (
 		<TouchableOpacity
@@ -68,36 +86,31 @@ export default function CardSearchScreen({ navigation }: Props) {
 					placeholder="Search cards..."
 					placeholderTextColor="#666"
 					value={searchQuery}
-					onChangeText={setSearchQuery}
-					onSubmitEditing={handleSearch}
+					onChangeText={handleLiveSearch} // ⭐ live search
 				/>
-				<TouchableOpacity
-					style={styles.searchButton}
-					onPress={handleSearch}>
-					<Text style={styles.searchButtonText}>Search</Text>
-				</TouchableOpacity>
 			</View>
 
-			{searching && (
-				<ActivityIndicator color="#533483" style={styles.loader} />
+			{initialLoading && (
+				<ActivityIndicator
+					size="large"
+					color="#533483"
+					style={{ marginTop: 40 }}
+				/>
 			)}
+
 			{error && <Text style={styles.errorText}>{error}</Text>}
 
-			<FlatList
-				data={results}
-				keyExtractor={(item) => `${item.cardType}-${item.id}`}
-				renderItem={renderResult}
-				ListEmptyComponent={
-					!searching && searchQuery ? (
+			{!initialLoading && (
+				<FlatList
+					data={results}
+					keyExtractor={(item) => `${item.cardType}-${item.id}`}
+					renderItem={renderResult}
+					ListEmptyComponent={
 						<Text style={styles.emptyText}>No results found!</Text>
-					) : !searching ? (
-						<Text style={styles.emptyText}>
-							Search for a card by name
-						</Text>
-					) : null
-				}
-				contentContainerStyle={styles.resultsList}
-			/>
+					}
+					contentContainerStyle={styles.resultsList}
+				/>
+			)}
 		</View>
 	);
 }
@@ -120,19 +133,6 @@ const styles = StyleSheet.create({
 		padding: 12,
 		borderRadius: 10,
 		fontSize: 16,
-	},
-	searchButton: {
-		backgroundColor: "#533483",
-		paddingHorizontal: 20,
-		borderRadius: 10,
-		justifyContent: "center",
-	},
-	searchButtonText: {
-		color: "#FFFFFF",
-		fontWeight: "600",
-	},
-	loader: {
-		marginVertical: 12,
 	},
 	errorText: {
 		color: "#FF6B6B",
