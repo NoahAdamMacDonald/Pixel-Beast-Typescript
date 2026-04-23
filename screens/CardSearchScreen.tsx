@@ -19,7 +19,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "CardSearch">;
 interface SearchResult {
 	id: number;
 	name: string;
-	cardType: string;
+	cardType: string; // beast | biome | program | relic
 }
 
 export default function CardSearchScreen({ navigation }: Props) {
@@ -28,6 +28,10 @@ export default function CardSearchScreen({ navigation }: Props) {
 	const [allCards, setAllCards] = useState<SearchResult[]>([]);
 	const [initialLoading, setInitialLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
+
+	const [selectedFilter, setSelectedFilter] = useState<string>("All");
+
+	const filterOptions = ["All", "Beast", "Biome", "Program", "Relic"];
 
 	useEffect(() => {
 		const loadAll = async () => {
@@ -47,21 +51,36 @@ export default function CardSearchScreen({ navigation }: Props) {
 		loadAll();
 	}, []);
 
-	const handleLiveSearch = (text: string) => {
-		setSearchQuery(text);
-
+	const applyFilters = (text: string, filter: string) => {
 		const query = text.trim().toLowerCase();
 
-		if (!query) {
-			setResults(allCards);
-			return;
+		let filtered = allCards;
+
+		//Text search
+		if (query) {
+			filtered = filtered.filter((card) =>
+				card.name.toLowerCase().includes(query),
+			);
 		}
 
-		const filtered = allCards.filter((card) =>
-			card.name.toLowerCase().includes(query),
-		);
+		//Type filter		
+		if (filter !== "All") {
+			filtered = filtered.filter(
+				(card) => card.cardType.toLowerCase() === filter.toLowerCase(),
+			);
+		}
 
 		setResults(filtered);
+	};
+
+	const handleLiveSearch = (text: string) => {
+		setSearchQuery(text);
+		applyFilters(text, selectedFilter);
+	};
+
+	const handleFilterPress = (filter: string) => {
+		setSelectedFilter(filter);
+		applyFilters(searchQuery, filter);
 	};
 
 	const renderResult = ({ item }: { item: SearchResult }) => (
@@ -80,16 +99,46 @@ export default function CardSearchScreen({ navigation }: Props) {
 
 	return (
 		<View style={styles.container}>
+			{/* Search bar */}
 			<View style={styles.searchRow}>
 				<TextInput
 					style={styles.searchInput}
 					placeholder="Search cards..."
 					placeholderTextColor="#666"
 					value={searchQuery}
-					onChangeText={handleLiveSearch} // ⭐ live search
+					onChangeText={handleLiveSearch}
 				/>
 			</View>
 
+			{/* Filter buttons */}
+			<View style={styles.filterRow}>
+				<FlatList
+					data={filterOptions}
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					keyExtractor={(item) => item}
+					renderItem={({ item }) => (
+						<TouchableOpacity
+							style={[
+								styles.filterButton,
+								selectedFilter === item &&
+									styles.filterButtonActive,
+							]}
+							onPress={() => handleFilterPress(item)}>
+							<Text
+								style={[
+									styles.filterText,
+									selectedFilter === item &&
+										styles.filterTextActive,
+								]}>
+								{item}
+							</Text>
+						</TouchableOpacity>
+					)}
+				/>
+			</View>
+
+			{/* Loading spinner */}
 			{initialLoading && (
 				<ActivityIndicator
 					size="large"
@@ -100,6 +149,7 @@ export default function CardSearchScreen({ navigation }: Props) {
 
 			{error && <Text style={styles.errorText}>{error}</Text>}
 
+			{/* Results */}
 			{!initialLoading && (
 				<FlatList
 					data={results}
@@ -123,7 +173,6 @@ const styles = StyleSheet.create({
 	},
 	searchRow: {
 		flexDirection: "row",
-		gap: 8,
 		marginBottom: 16,
 	},
 	searchInput: {
@@ -134,6 +183,30 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		fontSize: 16,
 	},
+	filterRow: {
+		flexDirection: "row",
+		marginBottom: 12,
+	},
+	filterButton: {
+		paddingVertical: 8,
+		paddingHorizontal: 14,
+		backgroundColor: "#0F3460",
+		borderRadius: 20,
+		marginRight: 8,
+	},
+	filterButtonActive: {
+		backgroundColor: "#533483",
+	},
+	filterText: {
+		color: "#A0A0B0",
+		fontSize: 14,
+		fontWeight: "500",
+	},
+	filterTextActive: {
+		color: "#FFFFFF",
+		fontWeight: "700",
+	},
+
 	errorText: {
 		color: "#FF6B6B",
 		textAlign: "center",
