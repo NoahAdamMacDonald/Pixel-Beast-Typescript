@@ -16,10 +16,10 @@ export async function getDecks() {
 
 //Get a single deck by ID
 
-export async function getDeckById(deckId) {
+export async function getDeckById(deckId: number | null) {
     try {
         const decks = await getDecks();
-        return decks.find((d) => d.id === deckId) || null; 
+        return decks.find((d: any) => d.id === deckId) || null; 
     } catch (error) {
         console.error ('Failed to get deck:', error);
         return null;
@@ -27,7 +27,7 @@ export async function getDeckById(deckId) {
 }
 
 //Save a new deck
-export async function saveDeck(name, cards) {
+export async function saveDeck(name: string, cards: any) {
     try {
         const decks = await getDecks();
         const newDeck = {
@@ -46,10 +46,10 @@ export async function saveDeck(name, cards) {
 }
 
 //Update an existing deck
-export async function updateDeck(deckId, name, cards) {
+export async function updateDeck(deckId: number, name: string, cards: any) {
     try {
         const decks = await getDecks();
-        const index = decks.findIndex((d) => d.id === deckId);
+        const index = decks.findIndex((d: any) => d.id === deckId);
         if (index === -1) throw new Error('Deck not found');
 
         decks[index] = {
@@ -67,10 +67,10 @@ export async function updateDeck(deckId, name, cards) {
 }
 
 //Delete a deck
-export async function deleteDeck(deckId) {
+export async function deleteDeck(deckId: number) {
     try {
         const decks = await getDecks();
-        const filtered = decks.filter((d) => d.id !== deckId);
+        const filtered = decks.filter((d: any) => d.id !== deckId);
         await AsyncStorage.setItem(DECKS_KEY, JSON.stringify(filtered));
     } catch (error) {
         console.error('Failed to delete deck:', error);

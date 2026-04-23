@@ -2,13 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { getCardById } from '../services/api';
 
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
+
+import { Card } from '../types/card';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'CardDetail'>;
+
 const SERVER_BASE_URL = "https://card-api.fly.dev";
 
-export default function CardDetailScreen({ route }) {
+export default function CardDetailScreen({ route }: Props) {
     const { cardId, cardType } = route.params;
-    const [card, setCard] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [card, setCard] = useState<Card | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         loadingCard();
@@ -66,14 +73,14 @@ export default function CardDetailScreen({ route }) {
             </View>
 
             <View style={styles.statsRow}>
-                <StatBox label="Play Cost" value={stats.playCost} />
-                {stats.level !== undefined && <StatBox label="Level" value={stats.level} />}
-                {stats.evoCost !== undefined && <StatBox label="Evo Cost" value={stats.evoCost} />}
-                {stats.bts !== undefined && <StatBox label="BTS" value={stats.bts} />}
+                <StatBox label="Play Cost" value={stats.playCost ?? 0} />
+                {stats.level !== undefined && <StatBox label="Level" value={stats.level ?? 0} />}
+                {stats.evoCost !== undefined && <StatBox label="Evo Cost" value={stats.evoCost ?? 0} />}
+                {stats.bts !== undefined && <StatBox label="BTS" value={stats.bts ?? 0} />}
             </View>
 
             {(stats.evoColor || stats.color) && (
-                <InfoRow label="Color" value={stats.evoColor || stats.color} />
+                <InfoRow label="Color" value={stats.evoColor ?? stats.color ?? ''} />
             )}
 
             {stats.bitEffect && (
@@ -142,7 +149,7 @@ export default function CardDetailScreen({ route }) {
     );
 }
 
-function StatBox({ label, value }) {
+function StatBox({ label, value }: { label: string; value: number | string | undefined } ) {
     return (
         <View style={styles.statBox}>
             <Text style={styles.statValue}>{value}</Text>
@@ -151,7 +158,7 @@ function StatBox({ label, value }) {
     );
 }
 
-function InfoRow({ label, value }) {
+function InfoRow({ label, value } : { label: string; value: string | number }) {
     return (
         <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>{label}</Text>
@@ -160,7 +167,7 @@ function InfoRow({ label, value }) {
     );
 }
 
-function TagSection({ title, items, color }) {
+function TagSection({ title, items, color }: { title: string; items: string[]; color: string }) {
     return (
         <View style={styles.section}>
             <Text style={styles.sectionTitle}>{title}</Text>

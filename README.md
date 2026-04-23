@@ -1,2 +1,1 @@
-# GroupProjectCOMP208
-Original TCG Mobile Application
+Personal clone of existing group project
